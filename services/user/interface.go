@@ -1,5 +1,7 @@
 package user
 
+import "github.com/hedonicadapter/gopher/models"
+
 type UserService interface {
-	List() []models.User
+	Get(id string) (models.User, error)
 }
