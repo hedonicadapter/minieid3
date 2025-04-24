@@ -8,7 +8,7 @@ import (
 func UserRoutes(rg *gin.RouterGroup, userService user.UserService) *gin.RouterGroup {
 	rg.GET("users/:id", func(ctx *gin.Context) {
 		id, _ := ctx.Params.Get("id")
-		user, err := userService.Get(id)
+		user, err := userService.GetById(id)
 		if err != nil {
 			// TODO: shouldnt be 500
 			ctx.JSONP(500, gin.H{

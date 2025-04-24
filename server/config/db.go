@@ -1,6 +1,7 @@
 package config
 
 import (
+	"errors"
 	"os"
 
 	"github.com/hedonicadapter/gopher/models"
@@ -8,8 +9,16 @@ import (
 	"gorm.io/gorm"
 )
 
-func migrate(db *gorm.DB) {
+func migrate(db *gorm.DB) *gorm.DB {
 	db.AutoMigrate(&models.User{})
+	return db
+}
+
+func CreateDummyData(db *gorm.DB) *gorm.DB {
+	errors.New("not implemented")
+	os.Exit(1)
+
+	return db
 }
 
 func InitDb() *gorm.DB {
