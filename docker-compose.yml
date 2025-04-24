@@ -1,0 +1,46 @@
+services:
+  server:
+    image: cosmtrek/air
+    networks:
+      - chungus
+    ports:
+      - 8080:8080
+    working_dir: /app
+    volumes:
+      - ./server:/app
+    environment:
+      - DATABASE_URL=postgres://postgres:chungusbunguswungus@postgresql:5432/db
+      - PORT=8080
+    depends_on:
+      - postgresql
+
+  postgresql:
+    image: postgres
+    networks:
+      - chungus
+    restart: always
+    shm_size: 128mb # recommended by docs, idk why
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: chungusbunguswungus
+      POSTGRES_DB: db
+      PGDATABASE: db
+    volumes:
+      - ./init/:/docker-entrypoint-initdb.d/
+
+  # adminer:
+  #   image: adminer
+  #   networks:
+  #     - chungus
+  #   restart: always
+  #   ports:
+  #     - 8080:8080
+
+  # debug:
+  #   image: luviz/network-tools
+  #   networks:
+  #     - chungus
+
+
+networks:
+  chungus:
