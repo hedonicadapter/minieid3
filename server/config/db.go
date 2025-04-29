@@ -22,7 +22,7 @@ func CreateDummyData(db *gorm.DB) *gorm.DB {
 }
 
 func InitDb() *gorm.DB {
-	dsn := os.Getenv("DATABASE_URL")
+	dsn := os.Getenv("POSTGRES_DATABASE_URL")
 	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
 	if err != nil {
 		panic("failed to connect database")

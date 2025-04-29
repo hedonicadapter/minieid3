@@ -9,16 +9,18 @@ services:
     volumes:
       - ./server:/app
     environment:
-      - DATABASE_URL=postgres://postgres:chungusbunguswungus@postgresql:5432/db
+      - POSTGRES_DATABASE_URL=postgres://postgres:chungusbunguswungus@postgresql:5432/db
+      - REDIS_DATABASE_URL=redis://localhost:6379/0
       - PORT=8080
     depends_on:
       - postgresql
+      - queue
 
   postgresql:
     image: postgres
     networks:
       - chungus
-    restart: always
+    restart: unless-stopped
     shm_size: 128mb # recommended by docs, idk why
     environment:
       POSTGRES_USER: postgres
@@ -27,6 +29,16 @@ services:
       PGDATABASE: db
     volumes:
       - ./init/:/docker-entrypoint-initdb.d/
+
+  queue:
+    image: redis
+    restart: unless-stopped
+    networks:
+      - chungus
+    environment:
+      - REDIS_PASSWORD=chungusbunguswungus
+      - REDIS_PORT=6379
+      - REDIS_DATABASES=1
 
   # adminer:
   #   image: adminer

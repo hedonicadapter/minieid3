@@ -2,13 +2,14 @@ package routes
 
 import (
 	"github.com/gin-gonic/gin"
+	"github.com/hedonicadapter/gopher/services/queue"
 	"github.com/hedonicadapter/gopher/services/user"
 )
 
-func UserRoutes(rg *gin.RouterGroup, userService user.UserService) *gin.RouterGroup {
+func UserRoutes(rg *gin.RouterGroup, users user.UserService, queue queue.QueueService) *gin.RouterGroup {
 	rg.GET("users/:id", func(ctx *gin.Context) {
 		id, _ := ctx.Params.Get("id")
-		user, err := userService.GetById(id)
+		user, err := users.GetById(id)
 		if err != nil {
 			// TODO: shouldnt be 500
 			ctx.JSONP(500, gin.H{
@@ -16,6 +17,8 @@ func UserRoutes(rg *gin.RouterGroup, userService user.UserService) *gin.RouterGr
 				"data":   user,
 			})
 		}
+
+		queue.Enqueue()
 
 		ctx.JSONP(200, gin.H{
 			"status": "OK",
