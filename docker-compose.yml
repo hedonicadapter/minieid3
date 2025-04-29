@@ -10,7 +10,7 @@ services:
       - ./server:/app
     environment:
       - POSTGRES_DATABASE_URL=postgres://postgres:chungusbunguswungus@postgresql:5432/db
-      - REDIS_DATABASE_URL=redis://localhost:6379/0
+      - REDIS_DATABASE_URL=redis://queue:6379/0
       - PORT=8080
     depends_on:
       - postgresql
@@ -35,6 +35,8 @@ services:
     restart: unless-stopped
     networks:
       - chungus
+    ports:
+      - 6379:6379
     environment:
       - REDIS_PASSWORD=chungusbunguswungus
       - REDIS_PORT=6379
@@ -49,7 +51,10 @@ services:
   #     - 8080:8080
 
   # debug:
-  #   image: luviz/network-tools
+  #   image: busybox:latest
+  #   command: sh
+  #   stdin_open: true
+  #   tty: true
   #   networks:
   #     - chungus
 

@@ -45,6 +45,6 @@ func (s Service) Update(id string, user models.User) (uint, error) {
 	return usr.ID, updatedUser.Error
 }
 
-func InitService(db *gorm.DB) Service {
-	return Service{Db: db}
+func InitService(db *gorm.DB) *Service {
+	return &Service{Db: db}
 }
