@@ -1,7 +1,7 @@
 package config
 
 import (
-	"errors"
+	"fmt"
 	"os"
 
 	"github.com/hedonicadapter/gopher/models"
@@ -14,9 +14,29 @@ func migrate(db *gorm.DB) *gorm.DB {
 	return db
 }
 
-func CreateDummyData(db *gorm.DB) *gorm.DB {
-	errors.New("not implemented")
-	os.Exit(1)
+func IdempotentDummyData(db *gorm.DB) *gorm.DB {
+	var count int64
+	if err := db.Model(&models.User{}).Count(&count).Error; err != nil {
+		fmt.Println("Failed to check existing data: ", err.Error())
+		os.Exit(1)
+	}
+
+	if count == 0 {
+		dummyUsers := []models.User{
+			{Name: "Alice"},
+			{Name: "Bob"},
+			{Name: "Charlie"},
+		}
+
+		if err := db.Create(&dummyUsers).Error; err != nil {
+			fmt.Println("Failed to seed dummy data: ", err.Error())
+			os.Exit(1)
+		} else {
+			fmt.Println("Dummy data seeded successfully.")
+		}
+	} else {
+		fmt.Println("Dummy data already exists. Skipping seeding.")
+	}
 
 	return db
 }

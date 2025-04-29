@@ -15,22 +15,26 @@ func (s Service) GetById(id string) (*models.User, error) {
 
 	return &user, err
 }
+
 func (s Service) Create(user models.User) (models.User, error) {
 	err := s.Db.Create(&user).Error
 
 	return user, err
 }
+
 func (s Service) Delete(id string) error {
 	err := s.Db.Delete(&models.User{}, id).Error
 
 	return err
 }
+
 func (s Service) List() ([]models.User, error) {
 	var user []models.User
 	res := s.Db.Find(&user)
 
 	return user, res.Error
 }
+
 func (s Service) Update(id string, user models.User) (uint, error) {
 	usr, err := s.GetById(id)
 	if err != nil {

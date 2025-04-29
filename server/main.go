@@ -16,6 +16,7 @@ func main() {
 	config.InitEnv()
 	db := config.InitDb()
 	rdb := config.InitRedis()
+	config.IdempotentDummyData(db)
 
 	r := gin.Default()
 
