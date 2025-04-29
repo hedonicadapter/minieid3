@@ -14,10 +14,11 @@ func migrate(db *gorm.DB) *gorm.DB {
 	return db
 }
 
+// INFO: använde ai
 func IdempotentDummyData(db *gorm.DB) *gorm.DB {
 	var count int64
 	if err := db.Model(&models.User{}).Count(&count).Error; err != nil {
-		fmt.Println("Failed to check existing data: ", err.Error())
+		fmt.Println("Failed to check for existing dummy data: ", err.Error())
 		os.Exit(1)
 	}
 
