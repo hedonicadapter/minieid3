@@ -7,6 +7,7 @@ import (
 	"net/http"
 	"net/http/httputil"
 	"net/url"
+	// "time"
 
 	httptrace "gopkg.in/DataDog/dd-trace-go.v1/contrib/net/http"
 
@@ -47,6 +48,10 @@ func main() {
 			Certificates: []tls.Certificate{cert},
 			RootCAs:      rootCA,
 		},
+		// TLSHandshakeTimeout:   10 * time.Second,
+		// ResponseHeaderTimeout: 33 * time.Second,
+		// IdleConnTimeout:       30 * time.Second,
+		// ExpectContinueTimeout: 1 * time.Second,
 	})
 
 	// config.InitEnv()
@@ -88,4 +93,3 @@ func main() {
 // 		RootCAs: clientAndCertificates.certificates.RootCAs
 // 	}
 // })
-
