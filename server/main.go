@@ -9,7 +9,7 @@ import (
 	"net/http/httputil"
 	"net/url"
 
-	"gopkg.in/DataDog/dd-trace-go.v1/contrib/net/http/httptrace"
+	httptrace "gopkg.in/DataDog/dd-trace-go.v1/contrib/net/http"
 
 	"github.com/gin-gonic/gin"
 	"github.com/hedonicadapter/gopher/api/routes"
@@ -45,12 +45,15 @@ func main() {
 
 	// ----------------------------------------------------------------------------------
 
-	backendURL := "add new service and put url here"
-	parsedURL, _ := url.Parse(backendURL)
+	backendURL := "http://mock-external-server:8080/"
+	parsedURL, err := url.Parse(backendURL)
+	if err != nil {
+		fmt.Println("Invalid backend URL: ", err)
+	}
 
 	proxy := httputil.NewSingleHostReverseProxy(parsedURL)
 	proxy.Transport = httptrace.WrapRoundTripper(&http.Transport{
-		MaxIdleConnsPerHost: 20,
+		MaxIdleConnsPerHost: 1,
 		TLSClientConfig: &tls.Config{
 			MinVersion: tls.VersionTLS12,
 		},
@@ -64,6 +67,12 @@ func main() {
 	r.Run()
 }
 
-// /*   httptrace "gopkg.in/DataDog/dd-trace-go.v1/contrib/net/http" */ proxy := httputil.NewSingleHostReverseProxy(&cfg.BackendURL) proxy.Transport = httptrace.WrapRoundTripper(&http.Transport{     MaxIdleConnsPerHost: 20,     TLSClientConfig: &tls.Config{         MinVersion:   tls.VersionTLS12,         Certificates: clientAndCertificates.certificates.Certificates,         RootCAs:      clientAndCertificates.certificates.RootCAs,     }, })
-//
-// proxy.Serve.HTTP(c.Write, c.Request)
+// proxy := httputil.NewSingleHostReverseProxy(&cfg.BackendURL)
+// proxy.Transport = httptrace.WrapRoundTripper(&http.Transport{
+// 	MaxIdleConnsPerHost: 20,
+// 	TLSClientConfig: &tls.Config{
+// 		MinVersion: tls.VersionTLS12,
+// 		Certificates: clientAndCertificates.certificates.Certificates,
+// 		RootCAs: clientAndCertificates.certificates.RootCAs
+// 	}
+// })
