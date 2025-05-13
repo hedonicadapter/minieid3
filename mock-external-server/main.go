@@ -3,12 +3,12 @@ package main
 import (
 	// "fmt"
 	"net/http"
-	// "time"
+	"time"
 )
 
 func main() {
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		// time.Sleep(32 * time.Second)
+		time.Sleep(32 * time.Second) // default timeouts 10 15 30
 		// fmt.Fprintln(w, "allo")
 		w.WriteHeader(500)
 
@@ -16,5 +16,3 @@ func main() {
 
 	http.ListenAndServe(":8080", nil)
 }
-
-// 10 15 30
