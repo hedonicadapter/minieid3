@@ -11,7 +11,7 @@ import (
 )
 
 type Service struct {
-	Rdb  *redis.Client
+	Rdb  redis.UniversalClient
 	List string
 }
 
@@ -56,7 +56,7 @@ func (s Service) Poll(ctx context.Context, taskHandler func(task models.Task) an
 	}
 }
 
-func InitService(rdb *redis.Client, list string) *Service {
+func InitService(rdb redis.UniversalClient, list string) *Service {
 	return &Service{Rdb: rdb, List: list}
 }
 

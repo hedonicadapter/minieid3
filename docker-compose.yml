@@ -1,6 +1,6 @@
 services:
   server:
-    image: cosmtrek/air
+    image: server
     networks:
       - chungus
     ports:
@@ -8,13 +8,15 @@ services:
     working_dir: /app
     volumes:
       - ./server:/app
+      - ~/.azure:/root/.azure
     environment:
       - POSTGRES_DATABASE_URL=postgres://postgres:chungusbunguswungus@postgresql:5432/db
-      - REDIS_DATABASE_URL=redis://queue:6379/0
+      # - REDIS_DATABASE_URL=redis://queue:6379/0
+      - REDIS_DATABASE_URL=rediss://minieid3.redis.cache.windows.net:6380/0
       - PORT=8080
     depends_on:
       - postgresql
-      - queue
+      # - queue
 
   postgresql:
     image: postgres
@@ -30,17 +32,17 @@ services:
     volumes:
       - ./init/:/docker-entrypoint-initdb.d/
 
-  queue:
-    image: redis
-    restart: unless-stopped
-    networks:
-      - chungus
-    ports:
-      - 6379:6379
-    environment:
-      - REDIS_PASSWORD=chungusbunguswungus
-      - REDIS_PORT=6379
-      - REDIS_DATABASES=1
+  # queue:
+  #   image: redis
+  #   restart: unless-stopped
+  #   networks:
+  #     - chungus
+  #   ports:
+  #     - 6379:6379
+  #   environment:
+  #     - REDIS_PASSWORD=chungusbunguswungus
+  #     - REDIS_PORT=6379
+  #     - REDIS_DATABASES=1
 
   # adminer:
   #   image: adminer
