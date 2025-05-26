@@ -58,7 +58,7 @@ CredentialsProvider has clear risks in silent erroring. From there on out it's u
   - [Add system assigned identity to existing Azure Cache for Redis](https://learn.microsoft.com/en-us/azure/azure-cache-for-redis/cache-managed-identity#add-system-assigned-identity-to-an-existing-cache)
   - [Add user assigned identity to existing Azure Cache for Redis](https://learn.microsoft.com/en-us/azure/azure-cache-for-redis/cache-managed-identity#add-a-user-assigned-identity-to-an-existing-cache)
 2. Assign the identity the role of "Redis Cache Contributor" at the minimum scope of resource group
-3. Get hostname and port from Azure Cache for Redis instance(s) for go application to use
+3. Get hostname and port from Azure Cache for Redis instance(s) for go application to use\
   Example for local development with docker-compose:
   ```docker-compose
   services:
