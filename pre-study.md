@@ -70,6 +70,11 @@ CredentialsProvider has clear risks in silent erroring. From there on out it's u
         - ~/.azure:/root/.azure # mount developer's own Azure config for authentication
       environment:
         - REDIS_DATABASE_URL=rediss://my-azure-cache-for-redis-instance.redis.cache.windows.net:6380/0
+        # if not mounting ~/.azure, set these:
+        #- AZURE_CLIENT_ID
+        #- AZURE_CLIENT_SECRET
+        #- AZURE_TENANT_ID
+        #- AZURE_SUBSCRIPTION_ID
   ```
 4. Set up authentication logic:
   - [For CredentialsProviderContext](https://github.com/hedonicadapter/minieid3/blob/e9b17fb426d9ac65a93899358a7a7a74d3e74e31/server/config/redis.go#L74)
