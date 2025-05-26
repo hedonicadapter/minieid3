@@ -10,14 +10,11 @@ Access keys require manual rotation and management, leading to operational overh
 
 Go-redis' support for managed identity is a work in progress at the time of writing. For this to be implemented, the minimum requirement for us is to upgrade go-redis to v9, and/or potentially wait for an experimental go-redis feature ([StreamingCredentialsProvider](https://github.com/redis/go-redis/pull/3320)) to go live. I've compared the relevant go-redis features below.
 
-#### CredentialsProvider -- since go-redis ~v9.0.0-beta.1
-Credentials are set once at the time of initialization, without context and proper erroring.
-
-#### CredentialsProviderContext -- since go-redis v9.5.2
-Supports contexts and erroring, and credentials are determined at the time of each operation.
-
-#### StreamingCredentialsProvider -- experimental and unreleased feature
-Supports contexts and erroring, and credentials are dynamically updated during the connection lifecycle.
+| go-redis Feature | Minimum version | Credentials | Context | Erroring |
+| ------------- | -------------- | -------------- | -------------- | -------------- |
+| CredentialsProvider | ~v9.0.0-beta.1 | Set at initialization | ❌ | ❌ |
+| CredentialsProviderContext | v9.5.2 | Set at time of each operation | ✅ | ✅ |
+| StreamingCredentialsProvider | TBA | Dynamically updated throughout connection lifecycle | ✅ |  ✅ |
 
 ---
 
