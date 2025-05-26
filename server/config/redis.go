@@ -13,9 +13,7 @@ import (
 	"github.com/Azure/azure-sdk-for-go/sdk/azcore"
 	"github.com/Azure/azure-sdk-for-go/sdk/azcore/policy"
 	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
-	"github.com/redis/go-redis/v9"
-
-	redistrace "gopkg.in/DataDog/dd-trace-go.v1/contrib/redis/go-redis.v9"
+	"github.com/go-redis/redis/v8"
 )
 
 func AzCredentialToRedis(credential azcore.TokenCredential) func(context.Context) (string, string, error) {
@@ -66,7 +64,7 @@ func InitRedis() redis.UniversalClient {
 		os.Exit(1)
 	}
 
-	return redistrace.NewClient(&redis.Options{
+	return redis.NewClient(&redis.Options{
 		Addr:                       opt.Addr,
 		Password:                   opt.Password,
 		DB:                         0, // use default DB,
